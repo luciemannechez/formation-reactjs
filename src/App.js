@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {ConnectionContainer} from "./ConnectionContainer";
 
 // Composant de type Class  
 // Une propriété props est définie dans l'objet (accessible via this.props)  
@@ -102,11 +103,11 @@ class Status extends React.Component {
     }
 
     render() {
-        const label  = this.state.isOnline ? null : 'OFFLINE';
+        //const label  = this.state.isOnline ? null : 'OFFLINE';
         return (
             <div>
                 {this.state.status}
-                {label}
+                <ConnectionContainer/>
             </div>
         );
     }
