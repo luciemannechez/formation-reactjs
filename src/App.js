@@ -27,8 +27,7 @@ class TrainingItem extends React.Component {
 
     render() {
         return (
-            this.props.name !== "Angular" &&
-                <li onClick={(e) => this.showName(e)}>{this.props.name}</li>
+            <li onClick={(e) => this.showName(e)}>{this.props.name}</li>
         );
     }
 }
@@ -47,19 +46,31 @@ class TrainingTitle extends React.Component {
 
 class TrainingList extends React.Component {
     shouldComponentUpdate() {
-
+        return true;
     }
 
     render() {
+        const trainings = [
+            {
+                id: 1,
+                name : 'React.js'
+            },
+            {
+                id: 2,
+                name: 'React Native'
+            },
+            {
+                id: 3,
+                name: 'Angular'
+            }
+        ];
+        const trainingItems = trainings.map((training) =>
+            <TrainingItem key={training.id} name={training.name}></TrainingItem>
+        );
         return (
             <div>
                 <TrainingTitle name="Formations"/>
-                <ul>
-                    <TrainingItem name="React.js"/>
-                    <TrainingItem name="React Native"/>
-                    <TrainingItem name="Angular"/>
-                    <TrainingItem name="Typescript"/>
-                </ul>
+                <ul>{trainingItems}</ul>
             </div>
         );
     }
