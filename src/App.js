@@ -1,133 +1,37 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {ConnectionContainer} from "./ConnectionContainer";
 import PropTypes from 'prop-types';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import {createLogger} from 'redux-logger';
+import TrainingList from "./redux/TrainingList";
+import {trainingsReducer} from "./store/trainings.reducer";
 
-// Composant de type Class  
-// Une propriété props est définie dans l'objet (accessible via this.props)  
-// Les propriétés de cet objet sont les attributs XML déclarés lorsque le composant est instancié  
-class TrainingItem extends React.Component {
-    constructor(props) {
-        super(props);
+// Assemblage des différents reducers d'une application
+const reducers = combineReducers({
+    trainings: trainingsReducer,
+});
 
-        this.showName = this.showName.bind(this);
-    }
+const logger = createLogger({
+    level: 'log',
+});
 
-    componentDidMount() {
-        console.log(this.props.name);
-    }
-
-    shouldComponentUpdate() {
-
-    }
-
-    showName(e) {
-        alert(this.props.name);
-        console.log(e.nativeEvent.type);
-    }
-
-    render() {
-        return (
-            <li onClick={(e) => this.showName(e)}>{this.props.name}</li>
-        );
-    }
-}
-
-TrainingItem.propTypes = {
-    name: PropTypes.string.isRequired
-};
-
-class TrainingTitle extends React.Component {
-    shouldComponentUpdate() {
-
-    }
-
-    render() {
-        return (
-            <h1>{this.props.name} :</h1>
-        );
-    }
-}
-
-TrainingTitle.propTypes = {
-    name: PropTypes.string.isRequired
-};
-
-class TrainingList extends React.Component {
-    shouldComponentUpdate() {
-        return true;
-    }
-
-    render() {
-        const trainings = [
-            {
-                id: 1,
-                name : 'React.js'
-            },
-            {
-                id: 2,
-                name: 'React Native'
-            },
-            {
-                id: 3,
-                name: 'Angular'
-            }
-        ];
-        const trainingItems = trainings.map((training) =>
-            <TrainingItem key={training.id} name={training.name}></TrainingItem>
-        );
-        return (
-            <div>
-                <TrainingTitle name="Formations"/>
-                <ul>{trainingItems}</ul>
-            </div>
-        );
-    }
-}
-
-class Status extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {status: navigator.onLine ? null : 'OFFLINE', isOnline : navigator.onLine };
-
-        window.addEventListener("offline", () => {
-            this.setState({
-                status: navigator.onLine ? null : 'OFFLINE',
-                isOnline : navigator.onLine
-            });
-        }, false)
-
-        window.addEventListener("online", () => {
-            this.setState({
-                status: navigator.onLine ? null : 'OFFLINE',
-                isOnline : navigator.onLine
-            });
-        }, false)
-    }
-
-    shouldComponentUpdate() {
-        return true;
-    }
-
-    render() {
-        //const label  = this.state.isOnline ? null : 'OFFLINE';
-        return (
-            <div>
-                {this.state.status}
-                <ConnectionContainer/>
-            </div>
-        );
-    }
-}
+// Création du store
+const store = createStore(reducers, applyMiddleware(logger));
 
 function App() {
     return (
-        <div>
-            <TrainingList/>
-            <Status/>
-        </div>
+        <Provider store={store}>
+            <div className="App">
+                <ConnectionContainer>
+                    <header className="App-header">
+                        <h1 className="App-title">Welcome to React</h1>
+                    </header>
+                    <TrainingList></TrainingList>
+                </ConnectionContainer>
+            </div>
+        </Provider>
     );
 }
 
