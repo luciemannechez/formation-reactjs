@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import {createLogger} from 'redux-logger';
 import TrainingList from "./redux/TrainingList";
 import {trainingsReducer} from "./store/trainings.reducer";
+import thunk from 'redux-thunk';
 
 // Assemblage des différents reducers d'une application
 const reducers = combineReducers({
@@ -18,7 +19,7 @@ const logger = createLogger({
 });
 
 // Création du store
-const store = createStore(reducers, applyMiddleware(logger));
+const store = createStore(reducers, applyMiddleware(thunk, logger));
 
 function App() {
     return (
