@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {ConnectionContainer} from "./ConnectionContainer";
+import PropTypes from 'prop-types';
 
 // Composant de type Class  
 // Une propriété props est définie dans l'objet (accessible via this.props)  
@@ -33,6 +34,10 @@ class TrainingItem extends React.Component {
     }
 }
 
+TrainingItem.propTypes = {
+    name: PropTypes.string.isRequired
+};
+
 class TrainingTitle extends React.Component {
     shouldComponentUpdate() {
 
@@ -44,6 +49,10 @@ class TrainingTitle extends React.Component {
         );
     }
 }
+
+TrainingTitle.propTypes = {
+    name: PropTypes.string.isRequired
+};
 
 class TrainingList extends React.Component {
     shouldComponentUpdate() {
